@@ -26,5 +26,29 @@ namespace BuyScan_UW
         {
             this.InitializeComponent();
         }
+
+        private void OnPivotItemLoading(Pivot sender, PivotItemEventArgs e)
+        {
+            if (e.Item.Content != null)
+            {
+                return;
+            }
+            
+            var pivotItemContentControl = CreateUserControlForPivotItem(((Pivot)sender).SelectedIndex);
+            e.Item.Content = pivotItemContentControl;
+        }
+
+        private static UserControl CreateUserControlForPivotItem(int selectedIndex)
+        {
+            switch (selectedIndex)
+            {
+                case 0:
+                    return new Expenses();
+                case 1:
+                    return new Receipts();
+                default:
+                    throw new ArgumentOutOfRangeException("selectedIndex");
+            }
+        }
     }
 }
