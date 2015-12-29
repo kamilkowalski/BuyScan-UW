@@ -8,9 +8,32 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Pivot Title="BuyScan"  PivotItemLoading="OnPivotItemLoading">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="BuyScan" Grid.Column="0" Grid.Row="0" FontSize="24" FontWeight="Bold" Margin="5" />
+        
+        <Pivot PivotItemLoading="OnPivotItemLoading" Grid.Row="1" Grid.Column="0">
             <PivotItem Header="Wydatki"/>
             <PivotItem Header="Paragony"/>
         </Pivot>
+
+        <CommandBar Grid.Row="2" Grid.Column="0">
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Label="Zdjęcie" Icon="Camera" Click="OpenCamera" />
+            </CommandBar.PrimaryCommands>
+
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="Ustawienia" Icon="Setting" Click="OpenSettings" />
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+
     </Grid>
 </Page>
