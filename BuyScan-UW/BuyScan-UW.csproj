@@ -98,9 +98,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Charts\PieChart.xaml.cs">
-      <DependentUpon>PieChart.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Expenses.xaml.cs">
       <DependentUpon>Expenses.xaml</DependentUpon>
     </Compile>
@@ -137,10 +134,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Charts\PieChart.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Expenses.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
