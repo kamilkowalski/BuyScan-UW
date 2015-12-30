@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.Media.Capture;
 using Windows.Storage;
+using BuyScan_UW.Models;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -24,6 +25,10 @@ namespace BuyScan_UW
     /// </summary>
     public sealed partial class MainPage : Page
     {
+
+        private static Receipts ReceiptsView;
+        private static Expenses ExpensesView;
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -45,9 +50,11 @@ namespace BuyScan_UW
             switch (selectedIndex)
             {
                 case 0:
-                    return new Expenses();
+                    if (ExpensesView == null) ExpensesView = new Expenses();
+                    return ExpensesView;
                 case 1:
-                    return new Receipts();
+                    if (ReceiptsView == null) ReceiptsView = new Receipts();
+                    return ReceiptsView;
                 default:
                     throw new ArgumentOutOfRangeException("selectedIndex");
             }
@@ -67,7 +74,18 @@ namespace BuyScan_UW
                 return;
             }
 
-            // Add the captured receipt to local database
+            using (var db = new ReceiptContext())
+            {
+                var receipt = new Receipt { ImagePath = photo.Path, CreatedAt = DateTime.Now };
+                db.Receipts.Add(receipt);
+                db.SaveChanges();
+            }
+
+            PrimaryPivot.SelectedIndex = 1;
+            if(ReceiptsView != null)
+            {
+                ReceiptsView.ReloadReceipts();
+            }
         }
 
         private void OpenSettings(object sender, RoutedEventArgs e)

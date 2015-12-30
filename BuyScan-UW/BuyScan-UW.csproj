@@ -104,7 +104,16 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MockData\ReceiptsMock.cs" />
+    <Compile Include="Migrations\20151229233831_InitialMigration.cs" />
+    <Compile Include="Migrations\20151229233831_InitialMigration.designer.cs">
+      <DependentUpon>20151229233831_InitialMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20151229234252_AddImagePathToReceipt.cs" />
+    <Compile Include="Migrations\20151229234252_AddImagePathToReceipt.designer.cs">
+      <DependentUpon>20151229234252_AddImagePathToReceipt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\ReceiptContextModelSnapshot.cs" />
+    <Compile Include="Models\ReceiptContext.cs" />
     <Compile Include="Models\ReceiptItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Receipt.cs" />

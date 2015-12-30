@@ -20,7 +20,7 @@
 
         <TextBlock Text="BuyScan" Grid.Column="0" Grid.Row="0" FontSize="24" FontWeight="Bold" Margin="5" />
         
-        <Pivot PivotItemLoading="OnPivotItemLoading" Grid.Row="1" Grid.Column="0">
+        <Pivot Name="PrimaryPivot" PivotItemLoading="OnPivotItemLoading" Grid.Row="1" Grid.Column="0">
             <PivotItem Header="Wydatki"/>
             <PivotItem Header="Paragony"/>
         </Pivot>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BuyScan_UW.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,6 +23,19 @@ namespace BuyScan_UW
         public Receipts()
         {
             this.InitializeComponent();
+        }
+
+        private void PageLoaded(object sender, RoutedEventArgs e)
+        {
+            ReloadReceipts();
+        }
+
+        public void ReloadReceipts()
+        {
+            using (var db = new ReceiptContext())
+            {
+                ReceiptsList.ItemsSource = db.Receipts.ToList();
+            }
         }
     }
 }
