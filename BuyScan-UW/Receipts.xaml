@@ -17,7 +17,7 @@
         <converters:DoubleToPriceConverter x:Key="doubleToPrice"/>
     </UserControl.Resources>
 
-    <ListView Name="ReceiptsList">
+    <ListView Name="ReceiptsList" IsItemClickEnabled="True" ItemClick="ReceiptClicked">
         <ListView.ItemTemplate>
             <DataTemplate>
                 <Grid>

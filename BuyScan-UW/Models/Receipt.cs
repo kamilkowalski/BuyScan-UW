@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Data.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BuyScan_UW
+namespace BuyScan_UW.Models
 {
     class Receipt
     {

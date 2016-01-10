@@ -41,11 +41,11 @@ namespace BuyScan_UW
                 return;
             }
             
-            var pivotItemContentControl = CreateUserControlForPivotItem(((Pivot)sender).SelectedIndex);
+            var pivotItemContentControl = CreateUserControlForPivotItem(sender.SelectedIndex);
             e.Item.Content = pivotItemContentControl;
         }
 
-        private static UserControl CreateUserControlForPivotItem(int selectedIndex)
+        private UserControl CreateUserControlForPivotItem(int selectedIndex)
         {
             switch (selectedIndex)
             {
@@ -53,7 +53,7 @@ namespace BuyScan_UW
                     if (ExpensesView == null) ExpensesView = new Expenses();
                     return ExpensesView;
                 case 1:
-                    if (ReceiptsView == null) ReceiptsView = new Receipts();
+                    if (ReceiptsView == null) ReceiptsView = new Receipts(this);
                     return ReceiptsView;
                 default:
                     throw new ArgumentOutOfRangeException("selectedIndex");
@@ -76,8 +76,15 @@ namespace BuyScan_UW
 
             using (var db = new ReceiptContext())
             {
-                var receipt = new Receipt { ImagePath = photo.Path, CreatedAt = DateTime.Now };
+                var receipt = new Receipt { ImagePath = photo.Path, CreatedAt = DateTime.Now, IsProcessed = true };
                 db.Receipts.Add(receipt);
+
+                var item1 = new ReceiptItem { Name = "Masło", Price = 4.99, Quantity = 1, Receipt = receipt };
+                var item2 = new ReceiptItem { Name = "Mleko", Price = 4.99, Quantity = 1, Receipt = receipt };
+
+                db.ReceiptItems.Add(item1);
+                db.ReceiptItems.Add(item2);
+
                 db.SaveChanges();
             }
 

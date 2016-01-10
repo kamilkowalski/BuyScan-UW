@@ -20,8 +20,11 @@ namespace BuyScan_UW
 {
     public sealed partial class Receipts : UserControl
     {
-        public Receipts()
+        private MainPage mainPage;
+
+        public Receipts(MainPage mainPage)
         {
+            this.mainPage = mainPage;
             this.InitializeComponent();
         }
 
@@ -39,6 +42,12 @@ namespace BuyScan_UW
 
                 ReceiptsList.ItemsSource = receipts;
             }
+        }
+
+        private void ReceiptClicked(object sender, ItemClickEventArgs e)
+        {
+            var receipt = (Receipt) e.ClickedItem;
+            mainPage.Frame.Navigate(typeof(ReceiptDetails), receipt);
         }
     }
 }
