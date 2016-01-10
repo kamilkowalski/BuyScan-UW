@@ -34,7 +34,10 @@ namespace BuyScan_UW
         {
             using (var db = new ReceiptContext())
             {
-                ReceiptsList.ItemsSource = db.Receipts.ToList();
+                var receipts = db.Receipts.ToList();
+                var items = db.ReceiptItems.ToList();
+
+                ReceiptsList.ItemsSource = receipts;
             }
         }
     }

@@ -98,6 +98,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\DateTimeToDateStringConverter.cs" />
+    <Compile Include="Converters\DoubleToPriceConverter.cs" />
     <Compile Include="Expenses.xaml.cs">
       <DependentUpon>Expenses.xaml</DependentUpon>
     </Compile>
@@ -111,6 +114,10 @@
     <Compile Include="Migrations\20151229234252_AddImagePathToReceipt.cs" />
     <Compile Include="Migrations\20151229234252_AddImagePathToReceipt.designer.cs">
       <DependentUpon>20151229234252_AddImagePathToReceipt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20160103170554_AddIsProcessedToReceipt.cs" />
+    <Compile Include="Migrations\20160103170554_AddIsProcessedToReceipt.designer.cs">
+      <DependentUpon>20160103170554_AddIsProcessedToReceipt.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ReceiptContextModelSnapshot.cs" />
     <Compile Include="Models\ReceiptContext.cs" />
