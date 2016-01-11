@@ -119,6 +119,10 @@
     <Compile Include="Migrations\20160103170554_AddIsProcessedToReceipt.designer.cs">
       <DependentUpon>20160103170554_AddIsProcessedToReceipt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20160111231100_AddReferenceToReceipt.cs" />
+    <Compile Include="Migrations\20160111231100_AddReferenceToReceipt.designer.cs">
+      <DependentUpon>20160111231100_AddReferenceToReceipt.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\ReceiptContextModelSnapshot.cs" />
     <Compile Include="Models\ReceiptContext.cs" />
     <Compile Include="Models\ReceiptItem.cs" />

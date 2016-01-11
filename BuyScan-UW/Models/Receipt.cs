@@ -12,6 +12,7 @@ namespace BuyScan_UW.Models
     class Receipt
     {
         public int ReceiptId { get; set; }
+        public string Reference { get; set; }
         public DateTime CreatedAt { get; set; }
         public virtual ICollection<ReceiptItem> ReceiptItems { get; set; }
         public string ImagePath { get; set; }

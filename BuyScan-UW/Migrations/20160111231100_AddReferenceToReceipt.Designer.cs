@@ -8,9 +8,10 @@ using BuyScan_UW.Models;
 namespace BuyScan_UW.Migrations
 {
     [DbContext(typeof(ReceiptContext))]
-    partial class ReceiptContextModelSnapshot : ModelSnapshot
+    [Migration("20160111231100_AddReferenceToReceipt")]
+    partial class AddReferenceToReceipt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348");
