@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Navigation;
 using Windows.Media.Capture;
 using Windows.Storage;
 using BuyScan_UW.Models;
+using Windows.Web.Http;
+using Windows.Data.Json;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -74,24 +76,42 @@ namespace BuyScan_UW
                 return;
             }
 
-            using (var db = new ReceiptContext())
-            {
-                var receipt = new Receipt { ImagePath = photo.Path, CreatedAt = DateTime.Now, IsProcessed = true };
-                db.Receipts.Add(receipt);
-
-                var item1 = new ReceiptItem { Name = "Masło", Price = 4.99, Quantity = 1, Receipt = receipt };
-                var item2 = new ReceiptItem { Name = "Mleko", Price = 4.99, Quantity = 1, Receipt = receipt };
-
-                db.ReceiptItems.Add(item1);
-                db.ReceiptItems.Add(item2);
-
-                db.SaveChanges();
-            }
+            StorePhoto(photo);
 
             PrimaryPivot.SelectedIndex = 1;
             if(ReceiptsView != null)
             {
                 ReceiptsView.ReloadReceipts();
+            }
+        }
+
+        private async void StorePhoto(StorageFile photo)
+        {
+            HttpClient httpClient = new HttpClient();
+            Uri requestUri = new Uri("http://api.kamilkowalski.pl/receipts");
+            HttpResponseMessage httpResponse = new HttpResponseMessage();
+            string httpResponseBody = "";
+
+            try
+            {
+                //httpResponse = await httpClient.GetAsync(requestUri);
+                httpResponse = await httpClient.PostAsync(requestUri, null);
+                httpResponse.EnsureSuccessStatusCode();
+                httpResponseBody = await httpResponse.Content.ReadAsStringAsync();
+            }
+            catch (Exception ex)
+            {
+                httpResponseBody = "Error: " + ex.HResult.ToString("X") + " Message: " + ex.Message;
+            }
+
+            JsonValue responseValue = JsonValue.Parse(httpResponseBody);
+            string referenceId = responseValue.GetObject().GetNamedString("id");
+
+            using (var db = new ReceiptContext())
+            {
+                var receipt = new Receipt { Reference = referenceId, ImagePath = photo.Path, CreatedAt = DateTime.Now, IsProcessed = false };
+                db.Receipts.Add(receipt);
+                db.SaveChanges();
             }
         }
 
