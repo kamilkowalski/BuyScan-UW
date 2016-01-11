@@ -48,7 +48,7 @@
                         <TextBlock Text="{Binding CreatedAt, Converter={StaticResource dateTimeToDateString}}" Grid.Row="1" Grid.Column="0" FontSize="9.333"/>
                     </Grid>
                     <ProgressBar Grid.Row="0" Grid.Column="1" IsIndeterminate="True" Visibility="{Binding IsNotProcessed, Converter={StaticResource booleanToVisibility}}"/>
-                    <TextBlock Text="{Binding Total, Converter={StaticResource doubleToPrice}}" Grid.Row="0" Grid.Column="2"/>
+                    <TextBlock Text="{Binding Total, Converter={StaticResource doubleToPrice}}" Visibility="{Binding IsProcessed, Converter={StaticResource booleanToVisibility}}" Grid.Row="0" Grid.Column="2"/>
                 </Grid>
             </DataTemplate>
         </ListView.ItemTemplate>
