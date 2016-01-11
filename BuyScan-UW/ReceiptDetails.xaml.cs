@@ -27,6 +27,13 @@ namespace BuyScan_UW
         public ReceiptDetails()
         {
             this.InitializeComponent();
+            Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
+        }
+
+        private void App_BackRequested(object sender, Windows.UI.Core.BackRequestedEventArgs e)
+        {
+            e.Handled = true;
+            this.Frame.Navigate(typeof(MainPage), "receipts");
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

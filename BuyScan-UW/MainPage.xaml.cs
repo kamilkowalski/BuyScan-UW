@@ -99,5 +99,28 @@ namespace BuyScan_UW
         {
 
         }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            foreach(PivotItem item in PrimaryPivot.Items)
+            {
+                item.Content = null;
+            }
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            if(e.Parameter is string)
+            {
+                var pivotTab = (string)e.Parameter;
+
+                if(pivotTab == "receipts")
+                {
+                    PrimaryPivot.SelectedIndex = 1;
+                }
+            }
+        }
     }
 }
