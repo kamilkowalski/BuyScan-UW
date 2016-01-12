@@ -17,6 +17,7 @@ using Windows.Storage;
 using BuyScan_UW.Models;
 using Windows.Web.Http;
 using Windows.Data.Json;
+using Windows.ApplicationModel.Background;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -94,7 +95,6 @@ namespace BuyScan_UW
 
             try
             {
-                //httpResponse = await httpClient.GetAsync(requestUri);
                 httpResponse = await httpClient.PostAsync(requestUri, null);
                 httpResponse.EnsureSuccessStatusCode();
                 httpResponseBody = await httpResponse.Content.ReadAsStringAsync();
@@ -113,6 +113,43 @@ namespace BuyScan_UW
                 db.Receipts.Add(receipt);
                 db.SaveChanges();
             }
+
+            RegisterFetchReceiptItemsTask();
+        }
+
+        private void RegisterFetchReceiptItemsTask()
+        {
+            var taskRegistered = false;
+            var exampleTaskName = "FetchReceiptItemsTask";
+
+            foreach (var task in BackgroundTaskRegistration.AllTasks)
+            {
+                if (task.Value.Name == exampleTaskName)
+                {
+                    taskRegistered = true;
+                    break;
+                }
+            }
+
+            if (!taskRegistered)
+            {
+                var builder = new BackgroundTaskBuilder();
+
+                builder.Name = exampleTaskName;
+                builder.TaskEntryPoint = "BuyScan_UW.Tasks.FetchReceiptItemsTask";
+                builder.SetTrigger(new SystemTrigger(SystemTriggerType.InternetAvailable, false));
+
+                BackgroundTaskRegistration task = builder.Register();
+                task.Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
+            }
+        }
+
+        private void OnCompleted(IBackgroundTaskRegistration task, BackgroundTaskCompletedEventArgs args)
+        {
+            if (ReceiptsView != null)
+            {
+                ReceiptsView.ReloadReceipts();
+            }
         }
 
         private void OpenSettings(object sender, RoutedEventArgs e)
@@ -129,10 +166,13 @@ namespace BuyScan_UW
             }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if(e.Parameter is string)
+
+            var access = await BackgroundExecutionManager.RequestAccessAsync();
+
+            if (e.Parameter is string)
             {
                 var pivotTab = (string)e.Parameter;
 

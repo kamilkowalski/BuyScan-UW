@@ -134,6 +134,7 @@
     <Compile Include="Receipts.xaml.cs">
       <DependentUpon>Receipts.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Tasks\FetchReceiptItemsTask.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

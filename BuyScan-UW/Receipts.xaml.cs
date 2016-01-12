@@ -47,7 +47,10 @@ namespace BuyScan_UW
         private void ReceiptClicked(object sender, ItemClickEventArgs e)
         {
             var receipt = (Receipt) e.ClickedItem;
-            mainPage.Frame.Navigate(typeof(ReceiptDetails), receipt);
+            if (receipt.IsProcessed)
+            {
+                mainPage.Frame.Navigate(typeof(ReceiptDetails), receipt);
+            }
         }
     }
 }
