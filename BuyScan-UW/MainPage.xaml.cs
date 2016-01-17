@@ -160,7 +160,7 @@ namespace BuyScan_UW
 
         private void OpenSettings(object sender, RoutedEventArgs e)
         {
-
+            this.Frame.Navigate(typeof(Settings));
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -180,11 +180,14 @@ namespace BuyScan_UW
 
             if (e.Parameter is string)
             {
-                var pivotTab = (string)e.Parameter;
+                var source = (string)e.Parameter;
 
-                if(pivotTab == "receipts")
+                if(source == "ReceiptDetails")
                 {
                     PrimaryPivot.SelectedIndex = 1;
+                } else if(source == "Settings")
+                {
+                    ReloadReceipts();
                 }
             }
         }

@@ -24,7 +24,7 @@ namespace BuyScan_UW
             if(!e.Handled)
             {
                 e.Handled = true;
-                this.Frame.Navigate(typeof(MainPage), "receipts");
+                this.Frame.Navigate(typeof(MainPage), "ReceiptDetails");
             }
         }
 
