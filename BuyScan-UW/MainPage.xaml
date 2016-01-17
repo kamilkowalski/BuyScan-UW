@@ -18,8 +18,10 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Text="BuyScan" Grid.Column="0" Grid.Row="0" FontSize="24" FontWeight="Bold" Margin="5" />
-        
+        <StackPanel Background="#00a2e8" Grid.Column="0" Grid.Row="0" Padding="0,0,0,5">
+            <TextBlock Text="BuyScan" FontSize="24" Margin="5" Foreground="White" />
+        </StackPanel>
+
         <Pivot Name="PrimaryPivot" PivotItemLoading="OnPivotItemLoading" Grid.Row="1" Grid.Column="0">
             <PivotItem Header="Wydatki"/>
             <PivotItem Header="Paragony"/>

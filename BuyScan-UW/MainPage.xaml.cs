@@ -9,6 +9,7 @@ using BuyScanModels.Models;
 using Windows.Web.Http;
 using Windows.Data.Json;
 using Windows.ApplicationModel.Background;
+using System.Linq;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -115,10 +116,10 @@ namespace BuyScan_UW
             }
 
             RegisterFetchReceiptItemsTask();
-            ReloadReceipts();
+            FetchReceiptItemsNow();
         }
 
-        private void RegisterFetchReceiptItemsTask()
+        private async void RegisterFetchReceiptItemsTask()
         {
             var taskRegistered = false;
             var exampleTaskName = "FetchReceiptItemsTask";
@@ -138,11 +139,61 @@ namespace BuyScan_UW
 
                 builder.Name = exampleTaskName;
                 builder.TaskEntryPoint = "BuyScanBackgroundTasks.FetchReceiptItemsTask";
-                builder.SetTrigger(new TimeTrigger(15, false));
+                builder.SetTrigger(new SystemTrigger(SystemTriggerType.InternetAvailable, false));
+                
+                var access = await BackgroundExecutionManager.RequestAccessAsync();
 
                 BackgroundTaskRegistration task = builder.Register();
                 task.Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
             }
+        }
+
+        private async void FetchReceiptItemsNow()
+        {
+            using (var db = new ReceiptContext())
+            {
+                var receipts = db.Receipts.Where(r => r.IsProcessed == false).ToList();
+
+                foreach (Receipt receipt in receipts)
+                {
+                    HttpClient httpClient = new HttpClient();
+                    Uri requestUri = new Uri("http://api.kamilkowalski.pl/receipts/" + receipt.Reference);
+                    HttpResponseMessage httpResponse = new HttpResponseMessage();
+                    string httpResponseBody = "";
+
+                    try
+                    {
+                        httpResponse = await httpClient.GetAsync(requestUri);
+                        httpResponse.EnsureSuccessStatusCode();
+                        httpResponseBody = await httpResponse.Content.ReadAsStringAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        httpResponseBody = "Error: " + ex.HResult.ToString("X") + " Message: " + ex.Message;
+                    }
+
+                    JsonValue responseValue = JsonValue.Parse(httpResponseBody);
+
+                    foreach (JsonValue receiptItemJson in responseValue.GetObject().GetNamedArray("receipt_items"))
+                    {
+                        JsonObject receiptItemObject = receiptItemJson.GetObject();
+                        string itemName = receiptItemObject.GetNamedString("name");
+                        double itemPrice = receiptItemObject.GetNamedNumber("price");
+                        int itemQty = (int)receiptItemObject.GetNamedNumber("quantity");
+
+                        var receiptItem = new ReceiptItem { Name = itemName, Price = itemPrice, Quantity = itemQty, Receipt = receipt };
+                        db.ReceiptItems.Add(receiptItem);
+                        db.SaveChanges();
+                    }
+
+                    receipt.IsProcessed = true;
+
+                    db.Update(receipt);
+                    db.SaveChanges();
+                }
+            }
+
+            ReloadReceipts();
         }
 
         private void ReloadReceipts()
@@ -172,11 +223,9 @@ namespace BuyScan_UW
             }
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
-            var access = await BackgroundExecutionManager.RequestAccessAsync();
 
             if (e.Parameter is string)
             {

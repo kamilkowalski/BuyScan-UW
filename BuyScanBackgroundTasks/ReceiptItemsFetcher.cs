@@ -49,7 +49,7 @@ namespace BuyScanBackgroundTasks
                     }
 
                     receipt.IsProcessed = true;
-
+                    
                     db.Update(receipt);
                     db.SaveChanges();
                 }
