@@ -3,36 +3,20 @@ using Microsoft.Data.Entity;
 using Microsoft.Data.Entity.Infrastructure;
 using Microsoft.Data.Entity.Metadata;
 using Microsoft.Data.Entity.Migrations;
-using BuyScan_UW.Models;
+using BuyScanModels.Models;
 
-namespace BuyScan_UW.Migrations
+namespace BuyScanModels.Migrations
 {
     [DbContext(typeof(ReceiptContext))]
-    [Migration("20160111231100_AddReferenceToReceipt")]
-    partial class AddReferenceToReceipt
+    [Migration("20151229233831_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348");
 
-            modelBuilder.Entity("BuyScan_UW.Models.Receipt", b =>
-                {
-                    b.Property<int>("ReceiptId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedAt");
-
-                    b.Property<string>("ImagePath");
-
-                    b.Property<bool>("IsProcessed");
-
-                    b.Property<string>("Reference");
-
-                    b.HasKey("ReceiptId");
-                });
-
-            modelBuilder.Entity("BuyScan_UW.Models.ReceiptItem", b =>
+            modelBuilder.Entity("BuyScanModels.Models.ReceiptItem", b =>
                 {
                     b.Property<int>("ReceiptItemId")
                         .ValueGeneratedOnAdd();
@@ -48,9 +32,19 @@ namespace BuyScan_UW.Migrations
                     b.HasKey("ReceiptItemId");
                 });
 
-            modelBuilder.Entity("BuyScan_UW.Models.ReceiptItem", b =>
+            modelBuilder.Entity("BuyScanModels.Receipt", b =>
                 {
-                    b.HasOne("BuyScan_UW.Models.Receipt")
+                    b.Property<int>("ReceiptId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("CreatedAt");
+
+                    b.HasKey("ReceiptId");
+                });
+
+            modelBuilder.Entity("BuyScanModels.Models.ReceiptItem", b =>
+                {
+                    b.HasOne("BuyScanModels.Receipt")
                         .WithMany()
                         .HasForeignKey("ReceiptReceiptId");
                 });

@@ -1,15 +1,10 @@
-﻿using BuyScan_UW.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Data.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BuyScan_UW.Models
+namespace BuyScanModels.Models
 {
-    class Receipt
+    public class Receipt
     {
         public int ReceiptId { get; set; }
         public string Reference { get; set; }

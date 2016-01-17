@@ -1,16 +1,13 @@
-﻿using BuyScan_UW.Models;
+﻿using BuyScanModels.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using Windows.Data.Json;
 using Windows.Web.Http;
 
-namespace BuyScan_UW.Tasks
+namespace BuyScanBackgroundTasks
 {
-    class FetchReceiptItemsTask : IBackgroundTask
+    public sealed class FetchReceiptItemsTask : IBackgroundTask
     {
 
         BackgroundTaskDeferral _deferral = null;

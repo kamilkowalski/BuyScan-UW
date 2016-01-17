@@ -1,22 +1,20 @@
-using System;
-using System.Collections.Generic;
 using Microsoft.Data.Entity.Migrations;
 
-namespace BuyScan_UW.Migrations
+namespace BuyScanModels.Migrations
 {
-    public partial class AddImagePathToReceipt : Migration
+    public partial class AddReferenceToReceipt : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "ImagePath",
+                name: "Reference",
                 table: "Receipt",
                 nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(name: "ImagePath", table: "Receipt");
+            migrationBuilder.DropColumn(name: "Reference", table: "Receipt");
         }
     }
 }

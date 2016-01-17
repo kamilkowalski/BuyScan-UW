@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Data.Entity;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BuyScan_UW.Models
+namespace BuyScanModels.Models
 {
-    class ReceiptItem
+    public class ReceiptItem
     {
         public int ReceiptItemId { get; set; }
         public string Name { get; set; }

@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
 using Microsoft.Data.Entity.Migrations;
 
-namespace BuyScan_UW.Migrations
+namespace BuyScanModels.Migrations
 {
     public partial class InitialMigration : Migration
     {

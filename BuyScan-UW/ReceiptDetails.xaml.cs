@@ -1,17 +1,6 @@
-﻿using BuyScan_UW.Models;
+﻿using BuyScanModels.Models;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
@@ -32,8 +21,11 @@ namespace BuyScan_UW
 
         private void App_BackRequested(object sender, Windows.UI.Core.BackRequestedEventArgs e)
         {
-            e.Handled = true;
-            this.Frame.Navigate(typeof(MainPage), "receipts");
+            if(!e.Handled)
+            {
+                e.Handled = true;
+                this.Frame.Navigate(typeof(MainPage), "receipts");
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

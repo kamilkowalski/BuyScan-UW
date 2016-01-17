@@ -3,20 +3,20 @@ using Microsoft.Data.Entity;
 using Microsoft.Data.Entity.Infrastructure;
 using Microsoft.Data.Entity.Metadata;
 using Microsoft.Data.Entity.Migrations;
-using BuyScan_UW.Models;
+using BuyScanModels.Models;
 
-namespace BuyScan_UW.Migrations
+namespace BuyScanModels.Migrations
 {
     [DbContext(typeof(ReceiptContext))]
-    [Migration("20151229233831_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20160103170554_AddIsProcessedToReceipt")]
+    partial class AddIsProcessedToReceipt
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.0-rc1-16348");
 
-            modelBuilder.Entity("BuyScan_UW.Models.ReceiptItem", b =>
+            modelBuilder.Entity("BuyScanModels.Models.ReceiptItem", b =>
                 {
                     b.Property<int>("ReceiptItemId")
                         .ValueGeneratedOnAdd();
@@ -32,19 +32,23 @@ namespace BuyScan_UW.Migrations
                     b.HasKey("ReceiptItemId");
                 });
 
-            modelBuilder.Entity("BuyScan_UW.Receipt", b =>
+            modelBuilder.Entity("BuyScanModels.Receipt", b =>
                 {
                     b.Property<int>("ReceiptId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreatedAt");
 
+                    b.Property<string>("ImagePath");
+
+                    b.Property<bool>("IsProcessed");
+
                     b.HasKey("ReceiptId");
                 });
 
-            modelBuilder.Entity("BuyScan_UW.Models.ReceiptItem", b =>
+            modelBuilder.Entity("BuyScanModels.Models.ReceiptItem", b =>
                 {
-                    b.HasOne("BuyScan_UW.Receipt")
+                    b.HasOne("BuyScanModels.Receipt")
                         .WithMany()
                         .HasForeignKey("ReceiptReceiptId");
                 });

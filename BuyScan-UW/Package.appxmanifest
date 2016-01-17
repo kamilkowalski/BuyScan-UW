@@ -21,7 +21,7 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="BuyScan_UW.Tasks.FetchReceiptItemsTask">
+        <Extension Category="windows.backgroundTasks" EntryPoint="BuyScanBackgroundTasks.FetchReceiptItemsTask">
           <BackgroundTasks>
             <Task Type="systemEvent" />
           </BackgroundTasks>

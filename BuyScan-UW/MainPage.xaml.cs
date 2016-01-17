@@ -1,20 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.Media.Capture;
 using Windows.Storage;
-using BuyScan_UW.Models;
+using BuyScanModels.Models;
 using Windows.Web.Http;
 using Windows.Data.Json;
 using Windows.ApplicationModel.Background;
@@ -35,6 +26,18 @@ namespace BuyScan_UW
         public MainPage()
         {
             this.InitializeComponent();
+            //Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
+        }
+
+        private void App_BackRequested(object sender, Windows.UI.Core.BackRequestedEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                e.Handled = true;
+                if (this.Frame.CanGoBack) {
+                    this.Frame.GoBack();
+                }
+            }
         }
 
         private void OnPivotItemLoading(Pivot sender, PivotItemEventArgs e)
@@ -80,10 +83,7 @@ namespace BuyScan_UW
             StorePhoto(photo);
 
             PrimaryPivot.SelectedIndex = 1;
-            if(ReceiptsView != null)
-            {
-                ReceiptsView.ReloadReceipts();
-            }
+            ReloadReceipts();
         }
 
         private async void StorePhoto(StorageFile photo)
@@ -115,6 +115,7 @@ namespace BuyScan_UW
             }
 
             RegisterFetchReceiptItemsTask();
+            ReloadReceipts();
         }
 
         private void RegisterFetchReceiptItemsTask()
@@ -136,20 +137,25 @@ namespace BuyScan_UW
                 var builder = new BackgroundTaskBuilder();
 
                 builder.Name = exampleTaskName;
-                builder.TaskEntryPoint = "BuyScan_UW.Tasks.FetchReceiptItemsTask";
-                builder.SetTrigger(new SystemTrigger(SystemTriggerType.InternetAvailable, false));
+                builder.TaskEntryPoint = "BuyScanBackgroundTasks.FetchReceiptItemsTask";
+                builder.SetTrigger(new TimeTrigger(15, false));
 
                 BackgroundTaskRegistration task = builder.Register();
                 task.Completed += new BackgroundTaskCompletedEventHandler(OnCompleted);
             }
         }
 
-        private void OnCompleted(IBackgroundTaskRegistration task, BackgroundTaskCompletedEventArgs args)
+        private void ReloadReceipts()
         {
             if (ReceiptsView != null)
             {
                 ReceiptsView.ReloadReceipts();
             }
+        }
+
+        private void OnCompleted(IBackgroundTaskRegistration task, BackgroundTaskCompletedEventArgs args)
+        {
+            ReloadReceipts();
         }
 
         private void OpenSettings(object sender, RoutedEventArgs e)
