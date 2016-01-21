@@ -19,7 +19,7 @@ namespace BuyScanBackgroundTasks
                 foreach (Receipt receipt in receipts)
                 {
                     HttpClient httpClient = new HttpClient();
-                    Uri requestUri = new Uri("http://api.kamilkowalski.pl/receipts/" + receipt.Reference);
+                    Uri requestUri = new Uri("http://api.kamilkowalski.pl/receipts/" + receipt.Reference + "/?t=" + DateTime.Now.ToString());
                     HttpResponseMessage httpResponse = new HttpResponseMessage();
                     string httpResponseBody = "";
 

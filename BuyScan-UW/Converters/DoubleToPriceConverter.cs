@@ -19,7 +19,10 @@ namespace BuyScan_UW.Converters
             }
 
             var currencyFormat = new CurrencyFormatter(currency);
-            return currencyFormat.Format((double)value);
+            currencyFormat.FractionDigits = 2;
+
+            //return currencyFormat.Format((double)value);
+            return ((double)value).ToString("C");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
